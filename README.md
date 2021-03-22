@@ -1,5 +1,5 @@
 # Vidgear Vitals :rotating_light:
-This repository maintains updates for additional vital binaries for [vidgear]() APIs.
+This repository maintains updates for additional vital binaries for [vidgear](https://github.com/abhiTronix/vidgear) APIs.
 
 &nbsp;
 
