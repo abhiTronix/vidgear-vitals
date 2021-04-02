@@ -33,12 +33,12 @@ This repository maintains updates for additional vital binaries for [vidgear](ht
 * **Files MD5 Checksums:**
 	```shell
 	9e4d3304ac51b29b2f0d5dcb524a46bf  ./static/img/favicon-32x32.png
-	5b61267dd375986bfc8227f366a07d55  ./static/css/custom.css
+	1aa2125fc8e50773db92ed9a42051988  ./static/css/custom.css
 	ab63d836841b4503208515b8128ea28d  ./static/js/custom.js
 	6dd9d207b45a8fca70cced1403abbef6  ./templates/404.html
 	1958e83de9b8a2909aba318f3b338bc1  ./templates/index.html
 	0acc0384ce0422a9fee4998236676c33  ./templates/500.html
-	eadf23fcf6670fe1067a984109d23fe8  ./templates/base.html
+	1a9e6ac8c590ceafa4a186d9ab55190e  ./templates/base.html
 	```
 
 &nbsp;
