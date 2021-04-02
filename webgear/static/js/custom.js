@@ -18,3 +18,30 @@ function toggleFullScreen(id) {
     const element = document.getElementById(id);
     screenfull.toggle(element)
 }
+
+// resize img tag for smaller screens[Temporary HACK]
+function resize() {
+	var img = document.getElementsByTagName('img');
+	var w = window.innerWidth / 1.5;
+	var h = window.innerHeight;
+	for (i = 0; i < img.length; i++) {
+		var ratio = (img[i].clientHeight / img[i].clientWidth);
+		if (img[i].clientHeight > h && img[i].clientWidth < w) {
+			img[i].style.height = h + "px";
+			img[i].style.width = (h / ratio) + "px";
+		}
+		if (img[i].clientHeight <= h && img[i].clientWidth < w && ratio > 1) {
+			img[i].style.height = h + "px";
+			img[i].style.width = (h / ratio) + "px";
+		}
+		if (img[i].clientWidth >= w) {
+			img[i].style.width = w + "px";
+		}
+		if (img[i].clientHeight < h && img[i].clientWidth <= w && ratio < 1) {
+			img[i].style.width = w + "px";
+		}
+	}
+}
+// call resize
+resize();
+window.onresize = resize;

@@ -14,11 +14,13 @@ limitations under the License.
 ===============================================
 --*/
 
+@import url('https://fonts.googleapis.com/css?family=Pirata+One|Rubik:900');
+
 /*
     Image Container
 */
 
-#imgcontainer {
+#videocontainer {
   background: none;
   margin: 0 auto;
   border-radius: 5px;
@@ -29,6 +31,10 @@ limitations under the License.
   user-select: none;
   text-align: center;
   display: block;
+}
+video {
+  max-width: 100%;
+  height: auto;
 }
 /*
     Main
@@ -125,22 +131,22 @@ video {
   vertical-align: baseline;
 }
 h1 {
-  font-size: 2.8em;
   text-align: center;
-  color: #fff;
-  font-weight: 100;
-  text-transform: uppercase;
-  letter-spacing: 4px;
+  text-transform: Uppercase;
+  margin-bottom: .5em;
+  font-family: 'Rubik', sans-serif;
+  font-size: 4.5rem;
 }
 .enhance-main {} body {
   font-family: 'Open Sans', sans-serif;
-  background: #011B56;
+  background: #2b2e4a;
   background-attachment: scroll;
   background-size: auto;
   background-attachment: fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
+  color: #E4E5E6;
 }
 .copy-enhance p {
   font-size: 0.9em;
@@ -150,19 +156,18 @@ h1 {
 }
 p {
   text-align: center;
-  color: #fff;
   font-weight: 300;
 }
-a { 
+a {
   color: #fff;
   font-weight: 500;
-} 
-a:link { 
+}
+a:link {
   text-decoration: none;
-} 
-a:hover { 
+}
+a:hover {
   color: yellow;
-} 
+}
 .copy-enhance p a {
   color: #fff;
   -webkit-transition: 0.5s all;
@@ -170,30 +175,6 @@ a:hover {
   -o-transition: 0.5s all;
   -ms-transition: 0.5s all;
   transition: 0.5s all;
-}
-img {
-  max-width: 100%;
-  height: 100%;
-}
-/*
-    Glow Text
-*/
-
-.glow {
-  font-size: 4.5rem;
-  color: #fff;
-  text-align: center;
-  -webkit-animation: glow 1s ease-in-out infinite alternate;
-  -moz-animation: glow 1s ease-in-out infinite alternate;
-  animation: glow 1s ease-in-out infinite alternate;
-}
-@-webkit-keyframes glow {
-  from {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #e60073, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073;
-  }
-  to {
-    text-shadow: 0 0 10px #fff, 0 0 20px #ff4da6, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6;
-  }
 }
 /*
     Social buttons
@@ -235,8 +216,13 @@ img {
 #lab_social_icon_footer #social-gitter:hover {
   color: #ffff00;
 }
+
+/*
+    Handle mobile screens
+*/
+
 @media screen and (max-width: 481px) {
-  .glow {
+  h1 {
     font-size: 2.0rem;
   }
 }
