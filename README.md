@@ -29,14 +29,14 @@ This repository maintains updates for additional vital binaries for [vidgear](ht
 * **Description:** Default theme files for WebGear_RTC API.
 * **Author:** [@abhiTronix](https://github.com/abhiTronix)
 * **License:** Apache License 2.0
-* **Version:** v0.1.0
+* **Version:** v0.1.1
 * **Files MD5 Checksums:**
 	```shell
 	9e4d3304ac51b29b2f0d5dcb524a46bf  ./static/img/favicon-32x32.png
 	1aa2125fc8e50773db92ed9a42051988  ./static/css/custom.css
 	ab63d836841b4503208515b8128ea28d  ./static/js/custom.js
 	6dd9d207b45a8fca70cced1403abbef6  ./templates/404.html
-	1958e83de9b8a2909aba318f3b338bc1  ./templates/index.html
+	e398f8b06ded7288cf2368a8826e3581  ./templates/index.html
 	0acc0384ce0422a9fee4998236676c33  ./templates/500.html
 	1a9e6ac8c590ceafa4a186d9ab55190e  ./templates/base.html
 	```
