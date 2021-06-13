@@ -116,3 +116,10 @@ function resize() {
 // call resize
 resize();
 window.onresize = resize;
+
+// Call 'close_connection' endpoint to inform server that we are refreshing page
+window.onbeforeunload = function(event)
+{
+    pc.close();
+    axios.post('/close_connection', 1)
+};
