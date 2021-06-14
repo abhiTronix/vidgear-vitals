@@ -14,213 +14,203 @@ limitations under the License.
 ===============================================
 --*/
 
-/*
-    Image Container
-*/
 
-#videocontainer {
-  background: none;
-  margin: 0 auto;
-  border-radius: 5px;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-  user-select: none;
-  text-align: center;
-  display: block;
+/* Handles Responive Video tags (from bootstrap) */
+.container {
+    width: 85%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
-video {
-  max-width: 100%;
-  height: auto;
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
 }
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+.embed-responsive {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+.embed-responsive::before {
+    display: block;
+    content: "";
+}
+
+.embed-responsive .embed-responsive-item,
+.embed-responsive iframe,
+.embed-responsive embed,
+.embed-responsive object,
+.embed-responsive video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.embed-responsive-21by9::before {
+    padding-top: 42.857143%;
+}
+
+.embed-responsive-16by9::before {
+    padding-top: 56.25%;
+}
+
+.embed-responsive-4by3::before {
+    padding-top: 75%;
+}
+
+.embed-responsive-1by1::before {
+    padding-top: 100%;
+}
+
+/* ends */
+
 /*
     Main
 */
-
-.rows {
-  width: max-content;
-  margin: 3em auto;
-}
-/*--reset--*/
-
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-dl,
-dt,
-dd,
-ol,
-nav ul,
-nav li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  padding: 0;
-  border: 0;
-  font: inherit;
-  vertical-align: baseline;
-}
 h1 {
-  text-align: center;
-  text-transform: Uppercase;
-  margin-bottom: .5em;
-  font-family: 'Rubik', sans-serif;
-  font-size: 4.5rem;
+    text-align: center;
+    text-transform: Uppercase;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    font-family: 'Rubik', sans-serif;
 }
-.enhance-main {} body {
-  font-family: 'Open Sans', sans-serif;
-  background: #2b2e4a;
-  background-attachment: scroll;
-  background-size: auto;
-  background-attachment: fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  color: #E4E5E6;
+
+.enhance-main {}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #2b2e4a;
+    background-attachment: scroll;
+    background-size: auto;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    color: #E4E5E6;
 }
+
 .copy-enhance p {
-  font-size: 0.9em;
-  color: #fff;
-  line-height: 1.8em;
-  letter-spacing: 1px;
+    font-size: 0.9em;
+    color: #fff;
+    line-height: 1.8em;
+    letter-spacing: 1px;
 }
+
 p {
-  text-align: center;
-  font-weight: 300;
+    text-align: center;
+    font-weight: 300;
 }
+
 a {
-  color: #fff;
-  font-weight: 500;
+    color: #fff;
+    font-weight: 500;
 }
+
 a:link {
-  text-decoration: none;
+    text-decoration: none;
 }
+
 a:hover {
-  color: yellow;
+    color: yellow;
 }
+
 .copy-enhance p a {
-  color: #fff;
-  -webkit-transition: 0.5s all;
-  -moz-transition: 0.5s all;
-  -o-transition: 0.5s all;
-  -ms-transition: 0.5s all;
-  transition: 0.5s all;
-}
-/*
-    Social buttons
-*/
-
-#lab_social_icon_footer {
-  text-align: center;
-  display: block;
-  font-size: 12px;
-  transform: translateZ(0);
-}
-#lab_social_icon_footer a {
-  color: #f8f8ff;
-}
-#lab_social_icon_footer .social:hover {
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
-  -o-transform: scale(1.1);
-}
-#lab_social_icon_footer .social {
-  -webkit-transform: scale(0.8);
-  /* Browser Variations: */
-  -moz-transform: scale(0.8);
-  -o-transform: scale(0.8);
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;
-  -o-transition-duration: 0.5s;
-}
-/*
-    Multicoloured Hover Variations
-*/
-
-#lab_social_icon_footer #social-hp:hover {
-  color: #79b8ff;
-}
-#lab_social_icon_footer #social-github:hover {
-  color: #d1d5da;
-}
-#lab_social_icon_footer #social-gitter:hover {
-  color: #ffff00;
+    color: #fff;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    transition: 0.5s all;
 }
 
 /*
     Handle mobile screens
 */
+/* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
+@media screen and (min-width: 601px) {
+    h1 {
+        font-size: 3.0rem;
+    }
+}
 
-@media screen and (max-width: 481px) {
-  h1 {
-    font-size: 2.0rem;
-  }
+/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 1.7rem;
+    }
+}
+
+/*
+    Social buttons
+*/
+#lab_social_icon_footer {
+    text-align: center;
+    display: block;
+    font-size: 12px;
+    transform: translateZ(0);
+}
+
+#lab_social_icon_footer a {
+    color: #f8f8ff;
+}
+
+#lab_social_icon_footer .social:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
+
+#lab_social_icon_footer .social {
+    -webkit-transform: scale(0.8);
+    /* Browser Variations: */
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+}
+
+/*
+    Multicoloured Hover Variations
+*/
+#lab_social_icon_footer #social-hp:hover {
+    color: #79b8ff;
+}
+
+#lab_social_icon_footer #social-github:hover {
+    color: #d1d5da;
+}
+
+#lab_social_icon_footer #social-gitter:hover {
+    color: #ffff00;
 }
