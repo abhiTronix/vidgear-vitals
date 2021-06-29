@@ -96,6 +96,18 @@ limitations under the License.
 /*
     Main
 */
+.bodycontainer {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.bodycontainer::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
 h1 {
     text-align: center;
     text-transform: Uppercase;
