@@ -1,4 +1,4 @@
-<!-- 
+<!--
 ===============================================
 vidgear library source-code is deployed under the Apache 2.0 License:
 
@@ -21,5 +21,19 @@ limitations under the License.
 {% extends "base.html" %}
 {% block content %}
 <h1 class="glow">WebGear Video Feed</h1>
-<img src="/video" id="imgcontainer" onclick="toggleFullScreen('imgcontainer')" class="img-fluid mx-auto d-block rounded" alt="Responsive Feed" title="click once to toggle fullscreen">
+<div id="player" class="player" title="click once to toggle fullscreen"
+    data-mode="{{ streaming_mode | default('mjpeg') }}"
+    data-video="{{ video_endpoint | default('/video') }}"
+    data-worker="{{ url_for('static', path='/js/videoFrameDecoderWorker.js') }}">
+    <canvas id="canvascontainer" hidden></canvas>
+    <img id="imgcontainer" alt="Live video feed" hidden>
+    <div class="hud" aria-live="polite">
+        <span id="hud-status" class="pill status">connecting</span>
+        <span id="hud-mode" class="pill"></span>
+        <span id="hud-res" class="pill"></span>
+        <span id="hud-fps" class="pill"></span>
+        <span id="hud-rate" class="pill"></span>
+        <span id="hud-latency" class="pill"></span>
+    </div>
+</div>
 {% endblock %}
