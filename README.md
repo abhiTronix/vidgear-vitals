@@ -12,12 +12,12 @@ This repository maintains updates for additional vital frontend data-files for [
 
 * **Description:** Default theme files for [WebGear API](https://abhitronix.github.io/vidgear/latest/gears/webgear/).
 * **Features:**
-	* :zap: **Low-latency H.264 engine:** Streams H.264 Annex-B access units over WebSocket (`/ws/video`), decoded off main-thread by a WebCodecs `VideoDecoder` inside a Web Worker and painted on `<canvas>`. Codec string (`avc1.PPCCLL`) is derived from the stream's SPS, and decode backlog is auto-dropped to the next keyframe.
-	* :leftwards_arrow_with_hook: **Automatic MJPEG fallback:** Falls back to the classic `<img src="/video">` Motion-JPEG feed when WebGear runs with `streaming_mode="mjpeg"` _(default)_, WebCodecs is unavailable _(e.g. insecure context: plain HTTP on non-localhost hosts)_, or the WebSocket stream fails.
-	* :bar_chart: **Telemetry HUD:** Live status, codec, resolution, FPS, bandwidth and decode-latency pills.
-	* :feather: **Zero external dependencies:** No CDN fonts, icon packs or scripts _(native Fullscreen API, inline SVG icons, system fonts)_. Whole theme is ~25KB.
-	* :new_moon: Responsive, modern dark UI with click-to-toggle fullscreen.
-* **Compatibility:** H.264 streaming needs vidgear with `streaming_mode="h264"` support. With older vidgear versions, theme automatically uses MJPEG.
+	* **Low-latency H.264 engine:** Streams H.264 Annex-B access units over WebSocket (`/ws/video`), decoded off main-thread by a WebCodecs `VideoDecoder` inside a Web Worker and painted on `<canvas>`. Codec string (`avc1.PPCCLL`) is derived from the stream's SPS, and decode backlog is auto-dropped to the next keyframe.
+	* **Automatic MJPEG fallback:** Falls back to the classic `<img src="/video">` Motion-JPEG feed when WebGear runs with `streaming_mode="mjpeg"`, WebCodecs is unavailable _(e.g. insecure context: plain HTTP on non-localhost hosts)_, or the WebSocket stream fails.
+	* **Telemetry HUD:** Live status, codec, resolution, FPS, bandwidth and decode-latency pills.
+	* **Zero external dependencies:** No CDN fonts, icon packs or scripts _(native Fullscreen API, inline SVG icons, system fonts)_. Whole theme is ~25KB.
+	* Responsive, modern dark UI with click-to-toggle fullscreen.
+* **Compatibility:** H.264 streaming needs vidgear v0.3.7+ _(`streaming_mode="h264"`, default)_. With older vidgear versions, theme automatically uses MJPEG.
 * **Author:** [@abhiTronix](https://github.com/abhiTronix)
 * **License:** Apache License 2.0
 * **Version:** v0.2.0
