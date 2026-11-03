@@ -24,13 +24,13 @@ This repository maintains updates for additional vital frontend data-files for [
 * **Files MD5 Checksums:**
 	```shell
 	9e4d3304ac51b29b2f0d5dcb524a46bf  webgear/static/img/favicon-32x32.png
-	7454ce064f50895e1b496f00ca72fece  webgear/static/css/custom.css
-	e9653be265a171b83a9d7f5a1e80a2d4  webgear/static/js/custom.js
-	49a19ae9ee9b564f822642b13b4e409b  webgear/static/js/videoFrameDecoderWorker.js
-	55248ac91841c7f21b3094b0c9407ffa  webgear/templates/404.html
-	8f548328331a763ff832237fe7f6eb5d  webgear/templates/index.html
-	4b938ff58e190715366f5f42f25b9bd3  webgear/templates/500.html
-	fc698a6abe14e976dced6129b090c341  webgear/templates/base.html
+	0a43b8c57010152032de97693bbeb625  webgear/static/css/custom.css
+	03ac309c45e4e45bb239ccc1a90b39cb  webgear/static/js/custom.js
+	3ddbfe6aeed9bbcd752d3e7fcff26f2d  webgear/static/js/videoFrameDecoderWorker.js
+	6dd9d207b45a8fca70cced1403abbef6  webgear/templates/404.html
+	c80909c10d4e2dd5c55310f360cfcb19  webgear/templates/index.html
+	0acc0384ce0422a9fee4998236676c33  webgear/templates/500.html
+	1536f3091986a7ee95bd1746ad9ca21a  webgear/templates/base.html
 	```
 
 ### WebGear_RTC default theme
@@ -44,12 +44,12 @@ This repository maintains updates for additional vital frontend data-files for [
 * **Files MD5 Checksums:**
 	```shell
 	9e4d3304ac51b29b2f0d5dcb524a46bf  webgear_rtc/static/img/favicon-32x32.png
-	68808448ff7e466d8e343b25603a34a9  webgear_rtc/static/css/custom.css
-	f22c1b90c7f058ab147ada83097ddcdc  webgear_rtc/static/js/custom.js
-	55248ac91841c7f21b3094b0c9407ffa  webgear_rtc/templates/404.html
-	5fd87d8e25c2328c60d82ea0c5f83bd2  webgear_rtc/templates/index.html
-	4b938ff58e190715366f5f42f25b9bd3  webgear_rtc/templates/500.html
-	35072a7c3a68f4f093b5c812cf03c82a  webgear_rtc/templates/base.html
+	a0fac71498524647558447cfdfc6c953  webgear_rtc/static/css/custom.css
+	29da26abb4c0dff056139110b3163b11  webgear_rtc/static/js/custom.js
+	6dd9d207b45a8fca70cced1403abbef6  webgear_rtc/templates/404.html
+	aafa5ad625b9aa2cb8d138769ce50532  webgear_rtc/templates/index.html
+	0acc0384ce0422a9fee4998236676c33  webgear_rtc/templates/500.html
+	2b8434ccdde8cc3e063a2d2509d02ee3  webgear_rtc/templates/base.html
 	```
 
 &nbsp;
