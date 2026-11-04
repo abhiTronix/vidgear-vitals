@@ -17,7 +17,7 @@ This repository maintains updates for additional vital frontend data-files for [
 	* **Telemetry HUD:** Live status, codec, resolution, FPS, bandwidth and decode-latency pills.
 	* **Zero external dependencies:** No CDN fonts, icon packs or scripts _(native Fullscreen API, inline SVG icons, system fonts)_. Whole theme is ~25KB.
 	* Responsive, modern dark UI with click-to-toggle fullscreen.
-* **Compatibility:** H.264 streaming needs vidgear v0.3.7+ _(`streaming_mode="h264"`, default)_. With older vidgear versions, theme automatically uses MJPEG.
+* **Compatibility:** H.264 streaming needs vidgear v0.3.7+ _(`streaming_mode="h264"`)_. With older vidgear versions, theme automatically uses MJPEG.
 * **Author:** [@abhiTronix](https://github.com/abhiTronix)
 * **License:** Apache License 2.0
 * **Version:** v0.2.0
