@@ -66,7 +66,7 @@ This repository maintains updates for additional vital frontend data-files for [
 Both themes are tested end-to-end in real Chromium with [Playwright](https://playwright.dev/python/) against live vidgear servers _(Python 3.14)_. WebGear: H.264 streaming, every MJPEG fallback path, fullscreen toggle, error pages and static assets. WebGear_RTC: WebRTC stream & performance overlay, two viewers _(default & live-broadcast)_, offer failures, page reload, reconnect after server drop, fullscreen toggle, error pages, static assets and zero third-party requests:
 
 ```sh
-pip install "vidgear[asyncio]" pytest-playwright   # FFmpeg (with libx264) must be on PATH
+pip install opencv-python-headless "vidgear[asyncio]" pytest-playwright   # FFmpeg (with libx264) must be on PATH
 python -m playwright install --with-deps chromium
 pytest tests -v
 ```
