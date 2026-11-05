@@ -13,48 +13,45 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ===============================================
 -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <!-- Meta Data -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="description" content="Video-Streaming Test for WebGear API of VidGear Python library.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="WebRTC Video-Streaming Test for WebGear_RTC API of VidGear Python library.">
     <meta name="author" content="abhiTronix">
-    <title>WebGear_RTC API Bare-minimum Template</title>
+    <meta name="color-scheme" content="dark">
+    <title>WebGear_RTC Video Feed</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='/img/favicon-32x32.png') }}">
-    <!-- Meta Data -->
-    <!-- Custom Theme files -->
+    <!-- Custom Theme files (no external dependencies) -->
     <link href="{{ url_for('static', path='/css/custom.css') }}" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- //Custom Theme files -->
-    <!-- web font -->
-    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Rubik:900' rel='stylesheet' type='text/css'>
-    <!--//web font-->
-    <!-- Axios framework for async requests -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body class="bodycontainer">
     <!-- main -->
-    {% block content %}{% endblock %}
-    <!-- //main -->
-    <!-- copyright -->
-    <p>© 2021 All rights reserved | Webgear_RTC API template for <a href="https://github.com/abhiTronix/vidgear/" class="text-white">Vidgear</a> | Designed by <a href="https://github.com/abhiTronix">@abhiTronix</a>.</p>
-    <!-- //copyright -->
-    <!-- social -->
-    <section id="lab_social_icon_footer">
-        <div class="container">
-            <div class="text-center center-block"> <a href="https://abhitronix.github.io/vidgear"><i id="social-hp" class="fa fa-home fa-3x social"></i></a> <a href="https://github.com/abhiTronix/vidgear"><i id="social-github" class="fa fa-github fa-3x social"></i></a> <a href="https://gitter.im/vidgear/community"><i id="social-gitter" class="fa fa-comments fa-3x social"></i></a> </div>
-        </div>
-    </section>
-    <!-- //social -->
+    <main>{% block content %}{% endblock %}</main>
+    <!-- footer -->
+    <footer>
+        <p>WebGear_RTC API template for <a href="https://github.com/abhiTronix/vidgear/">VidGear</a> | Designed by <a href="https://github.com/abhiTronix">@abhiTronix</a></p>
+        <nav class="social">
+            <a href="https://abhitronix.github.io/vidgear/latest/gears/webgear_rtc/" title="Documentation" aria-label="Documentation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 11h3v9h5v-6h4v6h5v-9h3z"/></svg>
+            </a>
+            <a href="https://github.com/abhiTronix" title="GitHub" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+            </a>
+            <a href="https://gitter.im/vidgear/community" title="Gitter" aria-label="Gitter">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2h2v13H5zM10 6h2v16h-2zM15 6h2v16h-2zM20 6h2v9h-2z"/></svg>
+            </a>
+            <a href="https://dev.to/abhitronix" title="DEV Community" aria-label="DEV Community">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="3"/><text x="12" y="15.2" text-anchor="middle" font-size="8" font-weight="800" font-family="system-ui, sans-serif" fill="#070b1a">DEV</text></svg>
+            </a>
+        </nav>
+    </footer>
     <!-- Custom Scripts -->
     <script src="{{ url_for('static', path='/js/custom.js') }}"></script>
-    <!-- //Custom Scripts -->
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-<!-- 
+<!--
 ===============================================
 vidgear library source-code is deployed under the Apache 2.0 License:
 
@@ -18,13 +18,23 @@ limitations under the License.
 ===============================================
 
 -->
-
 {% extends "base.html" %}
 {% block content %}
-<h1>WebGear_RTC Video Feed</h1>
-<div class="container">
-    <div class="embed-responsive embed-responsive-16by9">
-        <video id="video" class="embed-responsive-item" autoplay="true" playsinline="true" controls="true" muted="true"></video>
+<h1 class="glow">WebGear_RTC Video Feed</h1>
+<div id="player" class="player" title="click once to toggle fullscreen"
+    data-offer="offer"
+    data-close="close_connection"
+    data-ice-servers='{{ ice_servers | default([]) | tojson }}'>
+    <video id="video" aria-label="Live video feed" autoplay playsinline muted></video>
+    <div class="hud" aria-live="polite">
+        <span id="hud-status" class="pill status" data-state="connecting">connecting</span>
+        <span id="hud-codec" class="pill"></span>
+        <span id="hud-res" class="pill"></span>
+        <span id="hud-fps" class="pill"></span>
+        <span id="hud-rate" class="pill"></span>
+        <span id="hud-rtt" class="pill"></span>
+        <span id="hud-buffer" class="pill"></span>
+        <span id="hud-loss" class="pill"></span>
     </div>
 </div>
 {% endblock %}

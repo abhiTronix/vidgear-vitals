@@ -14,86 +14,152 @@ limitations under the License.
 ===============================================
 */
 
-// intialize
-var pc = null;
-// define negotiate function
-function negotiate() {
-    //  creates a new RTCRtpTransceiver `video` and adds it to the 
-    //set of transceivers associated with the RTCPeerConnection
-    pc.addTransceiver('video', {
-        direction: 'recvonly'
-    });
-    // create and return  SDP offer for the purpose 
-    // of starting a new WebRTC connection to a remote peer
-    return pc.createOffer().then(function(offer) {
-        return pc.setLocalDescription(offer);
-    }).then(function() {
-        // wait for ICE gathering to complete
-        return new Promise(function(resolve) {
-            if (pc.iceGatheringState === 'complete') {
-                resolve();
-            } else {
-                function checkState() {
-                    if (pc.iceGatheringState === 'complete') {
-                        // remove `icegatheringstatechange` event listener
-                        pc.removeEventListener('icegatheringstatechange', checkState);
-                        resolve();
-                    }
-                }
-                // add `icegatheringstatechange` event listener
-                pc.addEventListener('icegatheringstatechange', checkState);
-            }
-        });
-    }).then(function() {
-        // build and return json offer.
-        var offer = pc.localDescription;
-        return fetch('/offer', {
-            body: JSON.stringify({
-                sdp: offer.sdp,
-                type: offer.type,
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST'
-        });
-    }).then(function(response) {
-        // return response
-        return response.json();
-    }).then(function(answer) {
-        // return session description as the 
-        // remote peer's current answer. 
-        return pc.setRemoteDescription(answer);
-    }).catch(function(e) {
-        // catch any errors.
-        alert(e);
-    });
-}
-// add configs
-var config = {
-    sdpSemantics: 'unified-plan'
-};
-// add STUN protocol to discover your public address 
-// and determine any restrictions in your router that 
-// would prevent a direct connection with a peer.
-config.iceServers = [{
-    urls: ['stun:stun.l.google.com:19302']
-}];
-// create new RTCPeerConnection, which represents 
-// a connection between the local device and a remote peer.
-pc = new RTCPeerConnection(config);
-// connect to video and assign to video element source. 
-pc.addEventListener('track', function(evt) {
-    if (evt.track.kind == 'video') {
-        document.getElementById('video').srcObject = evt.streams[0];
+/*handles fullscreen workflow (native Fullscreen API)*/
+function toggleFullScreen(id) {
+    const element = document.getElementById(id);
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    } else if (element) {
+        (element.requestFullscreen || element.webkitRequestFullscreen).call(element);
     }
-});
-// call negotiate
-negotiate();
+}
 
-// Call 'close_connection' endpoint to inform server that we are refreshing page
-window.onbeforeunload = function(event) {
-    pc.close();
-    pc = null;
-    axios.post('/close_connection', 1); // POST
-};
+/*handles WebGear_RTC stream: WebRTC peer with auto-reconnect & real-time performance overlay*/
+(function () {
+    const player = document.getElementById("player");
+    if (!player) return; // error pages
+
+    const video = document.getElementById("video");
+    const pill = (name) => document.getElementById("hud-" + name);
+    const hud = (name, text) => (pill(name).textContent = text);
+    const status = (state) => {
+        hud("status", state);
+        pill("status").dataset.state = state;
+    };
+    // relative endpoints, so app works behind reverse-proxy sub-paths too
+    const offerUrl = player.dataset.offer || "offer";
+    const closeUrl = player.dataset.close || "close_connection";
+    let iceServers = [];
+    try {
+        iceServers = JSON.parse(player.dataset.iceServers || "[]");
+    } catch (e) {
+        console.warn("WebGear_RTC: invalid ICE servers,", e);
+    }
+
+    player.addEventListener("click", () => toggleFullScreen("player"));
+
+    let pc = null, id = null, timer = null, retries = 0, last = null, stalled = 0;
+
+    // wait for ICE gathering, but never longer than `ms` (unreachable STUN servers)
+    const gathered = (peer, ms) =>
+        new Promise((resolve) => {
+            if (peer.iceGatheringState === "complete") return resolve();
+            peer.addEventListener("icegatheringstatechange", () => peer.iceGatheringState === "complete" && resolve());
+            setTimeout(resolve, ms);
+        });
+
+    function close() {
+        clearTimeout(timer);
+        if (!pc) return;
+        pc.onconnectionstatechange = null;
+        pc.close();
+        pc = null;
+        // ask server to free this peer now, beacon survives page unload
+        navigator.sendBeacon(closeUrl, new Blob([JSON.stringify({ id: id })], { type: "application/json" }));
+        id = null;
+    }
+
+    function reconnect(reason) {
+        close();
+        status("reconnecting");
+        console.warn("WebGear_RTC: reconnecting,", reason);
+        timer = setTimeout(connect, Math.min(1000 * 2 ** retries++, 10000));
+    }
+
+    async function connect() {
+        close();
+        status("connecting");
+        last = null;
+        stalled = 0;
+        const peer = (pc = new RTCPeerConnection({ iceServers: iceServers }));
+        peer.addTransceiver("video", { direction: "recvonly" });
+        peer.ontrack = (evt) => (video.srcObject = evt.streams[0] || new MediaStream([evt.track]));
+        peer.onconnectionstatechange = () => {
+            const state = peer.connectionState;
+            if (state === "connected") {
+                retries = 0;
+                status("live");
+            } else if (state === "failed") {
+                reconnect("connection failed");
+            } else if (state === "disconnected") {
+                status("reconnecting");
+                timer = setTimeout(() => peer.connectionState === "disconnected" && reconnect("connection lost"), 5000);
+            }
+        };
+        try {
+            await peer.setLocalDescription(await peer.createOffer());
+            await gathered(peer, 3000);
+            const response = await fetch(offerUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ sdp: peer.localDescription.sdp, type: peer.localDescription.type }),
+            });
+            if (peer !== pc) return;
+            if (response.status === 503) {
+                // video-server stream ended, nothing to reconnect to
+                close();
+                return status("ended");
+            }
+            if (!response.ok) throw new Error("offer rejected with HTTP " + response.status);
+            const answer = await response.json();
+            id = answer.id;
+            await peer.setRemoteDescription({ sdp: answer.sdp, type: answer.type });
+        } catch (e) {
+            peer === pc && reconnect(e.message);
+        }
+    }
+
+    // real-time performance overlay, from WebRTC stats (fields browsers lack stay hidden)
+    setInterval(async () => {
+        if (!pc || pc.connectionState !== "connected") return;
+        const peer = pc;
+        const report = await peer.getStats();
+        let rtp, pair;
+        report.forEach((s) => {
+            if (s.type === "inbound-rtp" && s.kind === "video") rtp = s;
+            if (s.type === "candidate-pair" && s.nominated && s.state === "succeeded") pair = s;
+        });
+        if (!rtp || peer !== pc) return;
+        const codec = rtp.codecId && report.get(rtp.codecId);
+        codec && hud("codec", codec.mimeType.split("/")[1]);
+        rtp.frameWidth && hud("res", rtp.frameWidth + "×" + rtp.frameHeight);
+        pair && pair.currentRoundTripTime >= 0 && hud("rtt", "rtt " + Math.round(pair.currentRoundTripTime * 1000) + " ms");
+        if (last) {
+            const delta = (key) => rtp[key] - last[key];
+            const seconds = delta("timestamp") / 1000;
+            const frames = delta("framesDecoded");
+            if (Number.isFinite(frames)) {
+                hud("fps", Math.round(frames / seconds) + " fps");
+                stalled = frames > 0 ? 0 : stalled + 1;
+            }
+            const kbps = (delta("bytesReceived") * 8) / seconds / 1000;
+            Number.isFinite(kbps) && hud("rate", kbps >= 1000 ? (kbps / 1000).toFixed(2) + " Mbps" : Math.round(kbps) + " kbps");
+            const buffer = delta("jitterBufferDelay") / delta("jitterBufferEmittedCount");
+            Number.isFinite(buffer) && hud("buffer", "buffer " + Math.round(buffer * 1000) + " ms");
+            const lost = delta("packetsLost"), received = delta("packetsReceived");
+            if (lost + received > 0) {
+                const percent = (100 * Math.max(lost, 0)) / (lost + received);
+                hud("loss", "loss " + percent.toFixed(1) + "%");
+                pill("loss").dataset.level = percent > 5 ? "bad" : percent > 1 ? "warn" : "";
+            }
+            // connected but no new frames: show it, then re-negotiate
+            if (stalled >= 5) return reconnect("stream stalled");
+            status(stalled >= 2 ? "stalled" : "live");
+        }
+        last = rtp;
+    }, 1000);
+
+    addEventListener("pagehide", close);
+    addEventListener("pageshow", (e) => e.persisted && connect());
+    connect();
+})();
