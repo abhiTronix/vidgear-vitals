@@ -102,7 +102,7 @@ def test_error_page(page, servers, errors, mode):
     response = page.goto(servers[mode] + "/missing")
     assert response.status == 404
     expect(page.locator("h1.glow")).to_have_text("404")
-    expect(page.locator("footer .social a")).to_have_count(5)
+    expect(page.locator("footer .social a")).to_have_count(4)
     assert not errors
 
 
