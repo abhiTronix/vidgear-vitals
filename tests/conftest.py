@@ -1,6 +1,6 @@
 """
-Serves this repository's WebGear theme through a real vidgear WebGear server (H.264 & MJPEG modes)
-for Playwright frontend tests.
+Serves this repository's WebGear & WebGear_RTC themes through real vidgear servers
+(WebGear: H.264 & MJPEG modes, WebGear_RTC: default & live-broadcast) for Playwright frontend tests.
 """
 
 import shutil
@@ -23,25 +23,49 @@ web = WebGear(source=source, streaming_mode=mode, custom_data_location=data,
 uvicorn.run(web(), host="127.0.0.1", port=int(port), log_level="warning")
 """
 
+RTC_SERVER = """
+import sys, uvicorn
+from vidgear.gears.asyncio import WebGear_RTC
+source, live, data, port = sys.argv[1:]
+web = WebGear_RTC(source=source, enable_live_broadcast=live == "live", custom_data_location=data,
+                  enable_infinite_frames=True, frame_size_reduction=0, logging=True)
+uvicorn.run(web(), host="127.0.0.1", port=int(port), log_level="warning")
+"""
+
 
 @pytest.fixture(scope="session")
-def servers(tmp_path_factory):
+def browser_type_launch_args(browser_type_launch_args):
     """
-    Starts one WebGear server per streaming mode, using local theme files: {mode: base_url}
+    exposes plain host ICE candidates (no mDNS `.local` names) for loopback WebRTC
     """
-    tmp = tmp_path_factory.mktemp("webgear")
-    video = tmp / "testsrc.mp4"
+    args = browser_type_launch_args.get("args", [])
+    return {**browser_type_launch_args, "args": args + ["--disable-features=WebRtcHideLocalIpsWithMdns"]}
+
+
+@pytest.fixture(scope="session")
+def video(tmp_path_factory):
+    """
+    120s 640x360@25 test clip
+    """
+    video = tmp_path_factory.mktemp("video") / "testsrc.mp4"
     subprocess.run(
         ["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "testsrc2=size=640x360:rate=25",
          "-t", "120", "-pix_fmt", "yuv420p", str(video)],
         check=True,
     )
+    return video
+
+
+def serve(tmp, theme, script, video, specs):
+    """
+    starts one server per `(port, arg)` spec with local `theme` files, yields {arg: base_url}
+    """
     procs, urls = [], {}
-    for port, mode in ((8701, "h264"), (8702, "mjpeg")):
-        data = tmp / mode
-        shutil.copytree(ROOT / "webgear", data / ".vidgear" / "webgear")
-        procs.append(subprocess.Popen([sys.executable, "-c", SERVER, str(video), mode, str(data), str(port)]))
-        urls[mode] = "http://127.0.0.1:{}".format(port)
+    for port, arg in specs:
+        data = tmp / arg
+        shutil.copytree(ROOT / theme, data / ".vidgear" / theme)
+        procs.append(subprocess.Popen([sys.executable, "-c", script, str(video), arg, str(data), str(port)]))
+        urls[arg] = "http://127.0.0.1:{}".format(port)
     try:
         for url in urls.values():
             deadline = time.time() + 90
@@ -58,3 +82,19 @@ def servers(tmp_path_factory):
         for proc in procs:
             proc.terminate()
             proc.wait(timeout=30)
+
+
+@pytest.fixture(scope="session")
+def servers(tmp_path_factory, video):
+    """
+    Starts one WebGear server per streaming mode, using local theme files: {mode: base_url}
+    """
+    yield from serve(tmp_path_factory.mktemp("webgear"), "webgear", SERVER, video, ((8701, "h264"), (8702, "mjpeg")))
+
+
+@pytest.fixture(scope="session")
+def rtc_servers(tmp_path_factory, video):
+    """
+    Starts default & live-broadcast WebGear_RTC servers, using local theme files: {kind: base_url}
+    """
+    yield from serve(tmp_path_factory.mktemp("webgear_rtc"), "webgear_rtc", RTC_SERVER, video, ((8703, "default"), (8704, "live")))
