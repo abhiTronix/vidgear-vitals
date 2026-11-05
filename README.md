@@ -35,7 +35,7 @@ This repository maintains updates for additional vital frontend data-files for [
 
 ### WebGear_RTC default theme
 
-<img src="assets/webgear_rtc.png" width="60%"/>
+<img src="assets/webgear_rtc.jpg" width="60%"/>
 
 * **Description:** Default theme files for [WebGear_RTC API](https://abhitronix.github.io/vidgear/latest/gears/webgear_rtc/).
 * **Features:**
