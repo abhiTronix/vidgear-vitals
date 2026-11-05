@@ -30,33 +30,40 @@ This repository maintains updates for additional vital frontend data-files for [
 	6dd9d207b45a8fca70cced1403abbef6  webgear/templates/404.html
 	c80909c10d4e2dd5c55310f360cfcb19  webgear/templates/index.html
 	0acc0384ce0422a9fee4998236676c33  webgear/templates/500.html
-	1536f3091986a7ee95bd1746ad9ca21a  webgear/templates/base.html
+	978543418ff63e60fb34a74abbce6b7e  webgear/templates/base.html
 	```
 
 ### WebGear_RTC default theme
 
-<img src="assets/webgear_rtc.png" width="40%"/>
+<img src="assets/webgear_rtc.png" width="60%"/>
 
 * **Description:** Default theme files for [WebGear_RTC API](https://abhitronix.github.io/vidgear/latest/gears/webgear_rtc/).
+* **Features:**
+	* **Real-time Performance Overlay:** Live status, codec, resolution, FPS, bitrate, round-trip time, jitter-buffer delay and packet-loss pills, read every second from the browser's WebRTC `getStats()`. A stalled stream _(connected, but no new frames)_ is flagged and re-negotiated.
+	* **Resilient connection:** Reconnects with exponential backoff _(1-10s)_ when the peer connection fails or stalls, frees its server-side peer with `navigator.sendBeacon` when page is hidden/reloaded, reconnects on back/forward cache restore, and shows `ended` once the stream is over _(HTTP `503`)_. No `alert()` popups.
+	* **Configurable ICE:** STUN/TURN servers come from the server _(`data-ice-servers`, filled by WebGear_RTC's `ice_servers`)_, with ICE gathering capped at 3s. No hard-coded public STUN server.
+	* **Zero external dependencies:** No CDN fonts, icon packs or scripts _(`fetch` instead of axios, native Fullscreen API, inline SVG icons, system fonts)_. Endpoints are relative, so it also works behind reverse-proxy sub-paths.
+	* Same responsive, modern dark UI as WebGear theme, with click-to-toggle fullscreen.
+* **Compatibility:** Works with any vidgear version. Per-peer close, `ended` status and `ice_servers` need vidgear v0.3.7+; with older versions, the page still streams _(using no STUN server)_.
 * **Author:** [@abhiTronix](https://github.com/abhiTronix)
 * **License:** Apache License 2.0
-* **Version:** v0.1.2
+* **Version:** v0.2.0
 * **Files MD5 Checksums:**
 	```shell
 	9e4d3304ac51b29b2f0d5dcb524a46bf  webgear_rtc/static/img/favicon-32x32.png
-	a0fac71498524647558447cfdfc6c953  webgear_rtc/static/css/custom.css
-	29da26abb4c0dff056139110b3163b11  webgear_rtc/static/js/custom.js
+	18196508b7a4307b8ce5f58de042930d  webgear_rtc/static/css/custom.css
+	c68df25968fccc898cd5dab3fc6f6061  webgear_rtc/static/js/custom.js
 	6dd9d207b45a8fca70cced1403abbef6  webgear_rtc/templates/404.html
-	aafa5ad625b9aa2cb8d138769ce50532  webgear_rtc/templates/index.html
+	f50171883e57099bc01024ec4b36be58  webgear_rtc/templates/index.html
 	0acc0384ce0422a9fee4998236676c33  webgear_rtc/templates/500.html
-	2b8434ccdde8cc3e063a2d2509d02ee3  webgear_rtc/templates/base.html
+	41f484d6dcdcd1cddde974e15c6604a0  webgear_rtc/templates/base.html
 	```
 
 &nbsp;
 
 ### Testing
 
-WebGear theme is tested end-to-end in real Chromium with [Playwright](https://playwright.dev/python/) against a live vidgear WebGear server _(Python 3.14)_, covering H.264 streaming, every MJPEG fallback path, fullscreen toggle, error pages and static assets:
+Both themes are tested end-to-end in real Chromium with [Playwright](https://playwright.dev/python/) against live vidgear servers _(Python 3.14)_. WebGear: H.264 streaming, every MJPEG fallback path, fullscreen toggle, error pages and static assets. WebGear_RTC: WebRTC stream & performance overlay, two viewers _(default & live-broadcast)_, offer failures, page reload, reconnect after server drop, fullscreen toggle, error pages, static assets and zero third-party requests:
 
 ```sh
 pip install "vidgear[asyncio]" pytest-playwright   # FFmpeg (with libx264) must be on PATH
